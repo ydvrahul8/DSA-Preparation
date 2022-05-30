@@ -1,5 +1,5 @@
 fun main() {
-    logAllPairsOfArray(arrayOf(1,2,3,4,5,6))
+    logAllPairsOfArray(arrayOf(1, 2, 3, 4, 5, 6))
 }
 
 //print pair of number from the array
@@ -7,9 +7,12 @@ fun main() {
  * And the time complexity of this program will be O(n2)
  * */
 fun logAllPairsOfArray(array: Array<Int>) {
+    for(i in array.indices)
+        println(array[i])
+
     for (i in array.indices)
         for (j in array.indices)
-            println("pair is {${array[i]}, ${array[j]}}")
+            println("sum is {${array[i] + array[j]}}")
 }
 
 
