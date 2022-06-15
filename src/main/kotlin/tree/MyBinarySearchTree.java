@@ -48,6 +48,7 @@ public class MyBinarySearchTree {
             else
                 currentNode = currentNode.leftNode;
         }
+        return false;
     }
 
     public static void main(String[] args) {
