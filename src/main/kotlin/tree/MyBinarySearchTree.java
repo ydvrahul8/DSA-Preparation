@@ -1,5 +1,8 @@
 package tree;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class MyBinarySearchTree {
 
     private Node rootNode;
@@ -38,6 +41,30 @@ public class MyBinarySearchTree {
         }
     }
 
+    /**
+     * Using recursion
+     */
+
+    private Node insert2(Node root, int i) {
+        if (root == null)
+            return new Node(i);
+
+        if (root.data > i)
+            root.leftNode = insert2(root.leftNode, i);
+        else if (root.data < i)
+            root.rightNode = insert2(root.rightNode, i);
+        return root;
+    }
+
+    private void inorderTraversal(Node root) {
+        if (root == null)
+            return;
+
+        inorderTraversal(root.leftNode);
+        System.out.print(root.data + " ");
+        inorderTraversal(root.rightNode);
+    }
+
     private boolean lookup(int i) {
         Node currentNode = rootNode;
         while (currentNode != null) {
@@ -50,6 +77,99 @@ public class MyBinarySearchTree {
         }
         return false;
     }
+
+    /**
+     * search or lookup using recursion
+     */
+
+    private boolean search(Node root, int key) {
+        if (root == null)
+            return false;
+
+        if (root.data > key)
+            return search(root.leftNode, key);
+        else if (root.data == key)
+            return true;
+        else
+            return search(root.rightNode, key);
+    }
+
+    private Node delete(Node rootNode, int key) {
+        if (rootNode.data > key) {
+            rootNode.leftNode = delete(rootNode.leftNode, key);
+        } else if (rootNode.data < key) {
+            rootNode.rightNode = delete(rootNode.rightNode, key);
+        } else {
+            /**
+             * rootNode.data == key
+             * case:1-> where root has no child
+             * */
+            if (rootNode.leftNode == null && rootNode.rightNode == null)
+                return null;
+            /**
+             * case:2-> where root has one child
+             * */
+            if (rootNode.leftNode == null)
+                return rootNode.rightNode;
+            else if (rootNode.rightNode == null)
+                return rootNode.leftNode;
+
+            /**
+             * case:3-> where root has two children.
+             * To do that first we need to find out the inorder successor of that element.
+             * and to do so we have to find the left most element of the right sub tree.
+             * */
+
+            Node IS = inorderSuccessor(rootNode.rightNode);
+            rootNode.data = IS.data;
+            rootNode.rightNode = delete(rootNode.rightNode, IS.data);
+
+        }
+        return rootNode;
+    }
+
+    /**
+     * https://www.youtube.com/watch?v=qAeitQWjNNg
+     */
+    private void printInRange(Node node, int x, int y) {
+        if (node == null)
+            return;
+        if (node.data >= x && node.data <= y) {
+            printInRange(node.leftNode, x, y);
+            System.out.println(node.data);
+            printInRange(node.rightNode, x, y);
+        } else if (node.data <= x)
+            printInRange(node.leftNode, x, y);
+        else printInRange(node.rightNode, x, y);
+
+    }
+
+    private void printRootToLeaf(Node node, ArrayList<Integer> path) {
+        if (node == null)
+            return;
+        path.add(node.data);
+        if (node.leftNode == null && node.rightNode == null)
+            printPath(path);
+        else {
+            printRootToLeaf(node.leftNode, path);
+            printRootToLeaf(node.rightNode, path);
+        }
+        path.remove(path.size() - 1);
+    }
+
+    private void printPath(ArrayList<Integer> path) {
+        for(int i=0;i<path.size();i++){
+            System.out.print(path.get(i)+" ");
+        }
+        System.out.println();
+    }
+
+    private Node inorderSuccessor(Node node) {
+        while (node.leftNode != null)
+            node = node.leftNode;
+        return node;
+    }
+
 
     public static void main(String[] args) {
 
@@ -64,6 +184,25 @@ public class MyBinarySearchTree {
         System.out.println(bst.lookup(0));
         System.out.println(bst);
 
+        Node root = null;
+        root = bst.insert2(root, 9);
+        root = bst.insert2(root, 4);
+        root = bst.insert2(root, 6);
+        root = bst.insert2(root, 20);
+        root = bst.insert2(root, 170);
+        root = bst.insert2(root, 15);
+        root = bst.insert2(root, 1);
+        System.out.println(root);
+        System.out.println(bst.search(root, 170));
+
+        bst.inorderTraversal(root);
+
+        //bst.delete(root, 9);
+        //bst.inorderTraversal(root);
+
+        bst.printInRange(root, 4, 15);
+
+        bst.printRootToLeaf(root,new ArrayList<Integer>());
     }
 
     private class Node {
