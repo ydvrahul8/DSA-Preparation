@@ -39,13 +39,11 @@ public class SubsequenceOfString {
 
     public static void uniqueSequence(String s, int index, String newString, HashSet<String> set) {
         if (index == s.length()) {
-            if (set.contains(newString)) {
-                return;
-            } else {
+            if (!set.contains(newString)) {
                 System.out.println(newString);
                 set.add(newString);
-                return;
             }
+            return;
         }
         char currentChar = s.charAt(index);
         uniqueSequence(s, index + 1, newString + currentChar, set);
@@ -53,7 +51,7 @@ public class SubsequenceOfString {
     }
 
     public static void main(String[] args) {
-        //subsequence("abc", 0, "");
+        subsequence("abc", 0, "");
 
         HashSet<String> set = new HashSet<String>();
         uniqueSequence("aaa", 0, "", set);
