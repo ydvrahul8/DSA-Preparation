@@ -4,22 +4,22 @@ import java.util.Arrays;
 
 public class InsertionSort {
 
-    private static void sort(int arr[]) {
-        for (int i = 1; i < arr.length; i++) {
-            int j = i - 1;
-            int element = arr[i];
-            while (j >= 0 && element < arr[j]) {
-                arr[j + 1] = arr[j];
-                --j;
+    private static void sort(int arr[]){
+        for(int i=0;i<arr.length;i++){
+            int current = arr[i];
+            int j = i-1;
+            while(j>=0 && current < arr[j]){
+                arr[j+1] = arr[j];
+                j--;
             }
-            arr[j + 1] = element;
+            arr[j+1] = current;
         }
         System.out.println(Arrays.toString(arr));
     }
 
     public static void main(String[] args) {
-        int[] data = {9, 5, 1, 4, 3};
-        sort(data);
+        int arr[] = {3, 2, 12, 43, 12, 54, 2, 1, 0};
+        sort(arr);
     }
 
 }
